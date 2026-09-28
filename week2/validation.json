@@ -1,5 +1,5 @@
 {
-  "executed_at_utc": "2026-09-28T10:11:38.134023+00:00",
+  "executed_at_utc": "2026-09-28T10:38:00.364161+00:00",
   "python": "3.12.14",
   "platform": "Windows",
   "machine": "AMD64",
@@ -104,7 +104,7 @@
       "checks": [
         "PASS: all eight photo resizes, output dtypes, and tiny/odd-dimension checks."
       ],
-      "sha256": "7077aaaf366a0ee1247c6dc7f472159950bf288e079bc5a8ad3b7de703a808e8",
+      "sha256": "b39b546f96fc4403114446330a3446a49d19b4f25a937c0f221445629074e3fc",
       "bytes": 1684504
     },
     {
@@ -169,7 +169,7 @@
       "checks": [
         "PASS: both photographs, quantization error bounds, and all 256 input intensities."
       ],
-      "sha256": "c8d539741aaf6622224df8a36f6263a2ca00140b34656683153415a8ae33cb3c",
+      "sha256": "3b9dea1c17887736e69e6e95be7ac5c9e562d148063ff59d4771fecb35e05504",
       "bytes": 410321
     },
     {
@@ -246,44 +246,11 @@
       "checks": [
         "PASS: remapping keeps four levels; direct quantization produces 16 on the full ramp."
       ],
-      "sha256": "3d02d2bb6576533abc22f4f4178ab81b254605ce6b98d037ae35eb2b4bd9f506",
+      "sha256": "17cb0338730f69d9263d8231d1ae8672c1b328ecdd3f23429f8f206f13c81d99",
       "bytes": 487832
     },
     {
-      "notebook": "04_quadrant_quantization.ipynb",
-      "executed_code_cells": 4,
-      "embedded_figures": 2,
-      "errors": 0,
-      "results": {
-        "astronaut": {
-          "shape": [
-            512,
-            512
-          ],
-          "whole_image_equal": true,
-          "residual_min": 0,
-          "residual_max": 63,
-          "residual_mean": 26.225852966308594
-        },
-        "coffee": {
-          "shape": [
-            400,
-            600
-          ],
-          "whole_image_equal": true,
-          "residual_min": 0,
-          "residual_max": 63,
-          "residual_mean": 28.948945833333333
-        }
-      },
-      "checks": [
-        "PASS: both photographs, residual bounds, exact reassembly, and odd-dimension cases."
-      ],
-      "sha256": "d0bdaf7b9ecf33d77d7ec596f8c8a425e1647f4e15278b245c1302b093860888",
-      "bytes": 1156287
-    },
-    {
-      "notebook": "05_whole_image_vs_quadrants.ipynb",
+      "notebook": "04_whole_image_vs_quadrants.ipynb",
       "executed_code_cells": 4,
       "embedded_figures": 2,
       "errors": 0,
@@ -291,52 +258,52 @@
         "astronaut": {
           "timings": {
             "Whole image": {
-              "median_ms": 0.965472,
-              "q25_ms": 0.9502320000000001,
-              "q75_ms": 1.028536,
+              "median_ms": 1.174136,
+              "q25_ms": 0.952416,
+              "q75_ms": 1.4924000000000002,
               "batches": 9,
               "calls_per_batch": 25
             },
             "Four quadrants": {
-              "median_ms": 0.429728,
-              "q25_ms": 0.425948,
-              "q75_ms": 0.434112,
+              "median_ms": 0.45065600000000006,
+              "q25_ms": 0.44844,
+              "q75_ms": 0.4706,
               "batches": 9,
               "calls_per_batch": 25
             }
           },
-          "ratio": 0.4450962845116171,
+          "ratio": 0.3838192509215287,
           "outputs_identical": true
         },
         "coffee": {
           "timings": {
             "Whole image": {
-              "median_ms": 0.31891200000000003,
-              "q25_ms": 0.31744,
-              "q75_ms": 0.32293999999999995,
+              "median_ms": 0.33888399999999996,
+              "q25_ms": 0.330116,
+              "q75_ms": 0.339664,
               "batches": 9,
               "calls_per_batch": 25
             },
             "Four quadrants": {
-              "median_ms": 0.386716,
-              "q25_ms": 0.384392,
-              "q75_ms": 0.387708,
+              "median_ms": 0.41518,
+              "q25_ms": 0.41208,
+              "q75_ms": 0.417028,
               "batches": 9,
               "calls_per_batch": 25
             }
           },
-          "ratio": 1.212610375275938,
+          "ratio": 1.2251389856115957,
           "outputs_identical": true
         }
       },
       "checks": [
         "PASS: pixel equality for both photos and odd dimensions; quantized range verified."
       ],
-      "sha256": "340265a6a71611843ee79238866b0f5ddc7e82310fc87e7191d5712f37a2c2b0",
-      "bytes": 407966
+      "sha256": "a016b44ecc28f03cb6747c216ce793c6a1467163a13962a0e484728627ae5d26",
+      "bytes": 408782
     },
     {
-      "notebook": "06_brightness_contrast.ipynb",
+      "notebook": "05_brightness_contrast.ipynb",
       "executed_code_cells": 4,
       "embedded_figures": 2,
       "errors": 0,
@@ -349,16 +316,16 @@
           "output_max": 211,
           "timings": {
             "NumPy": {
-              "median_ms": 1.5578159999999999,
-              "q25_ms": 1.53772,
-              "q75_ms": 1.591344,
+              "median_ms": 1.522012,
+              "q25_ms": 1.502348,
+              "q75_ms": 1.62828,
               "batches": 9,
               "calls_per_batch": 25
             },
             "OpenCV": {
-              "median_ms": 0.038932,
-              "q25_ms": 0.036176,
-              "q75_ms": 0.039624,
+              "median_ms": 0.039476,
+              "q25_ms": 0.03604,
+              "q75_ms": 0.041224,
               "batches": 9,
               "calls_per_batch": 25
             }
@@ -372,16 +339,16 @@
           "output_max": 211,
           "timings": {
             "NumPy": {
-              "median_ms": 0.8989480000000001,
-              "q25_ms": 0.8515560000000001,
-              "q75_ms": 0.9496479999999999,
+              "median_ms": 0.8840399999999999,
+              "q25_ms": 0.8784879999999999,
+              "q75_ms": 0.9024800000000001,
               "batches": 9,
               "calls_per_batch": 25
             },
             "OpenCV": {
-              "median_ms": 0.036668,
-              "q25_ms": 0.03392,
-              "q75_ms": 0.045324,
+              "median_ms": 0.036944,
+              "q25_ms": 0.03614,
+              "q75_ms": 0.037632,
               "batches": 9,
               "calls_per_batch": 25
             }
@@ -391,7 +358,7 @@
       "checks": [
         "PASS: both photos, all 256 possible intensities, and endpoints. Ramp max difference: 0."
       ],
-      "sha256": "0703b51749d469af66ba79d5f6f290f71bd9205d1ca57332326dad3af0a054c9",
+      "sha256": "4610e389a3740a1c8c6f1f8c61e87517883112f3e624934d285728de26d308f9",
       "bytes": 743328
     }
   ],
@@ -405,13 +372,28 @@
     "result": "PASS"
   },
   "visual_review": {
-    "figures_reviewed": 12,
+    "figures_reviewed": 10,
     "result": "PASS",
     "checks": [
       "readable labels",
       "complete layouts",
       "consistent intensity scales",
-      "interpretable legends and colorbars"
+      "interpretable legends and axes"
+    ]
+  },
+  "repository_audit": {
+    "audited_at_utc": "2026-09-28T10:39:37.412630+00:00",
+    "result": "PASS",
+    "notebook_count": 5,
+    "local_links_checked": 23,
+    "checks": [
+      "consecutive filenames and headings",
+      "valid notebook schemas",
+      "20 executed code cells and 10 embedded figures without errors",
+      "saved notebook hashes and byte counts match the report",
+      "photo hashes and dependency versions match",
+      "local documentation links resolve",
+      "obsolete task names, metrics, and error snippets absent"
     ]
   }
 }

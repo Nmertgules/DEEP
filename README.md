@@ -2,7 +2,7 @@
 
 **Group members: Nmertgules and Iliya**
 
-Six Jupyter notebooks explore spatial resolution, intensity quantization, regional processing, and linear brightness/contrast transforms. Every notebook has been executed on **two different web photographs**, with its plots, measurements, and verification outputs saved for viewing directly on GitHub.
+Five Jupyter notebooks explore spatial resolution, intensity quantization, processing-time comparisons, and linear brightness/contrast transforms. Every notebook has been executed on **two different web photographs**, with its plots, measurements, and verification outputs saved for viewing directly on GitHub.
 
 ![Executed coffee-photo quantization comparison](week2/preview.png)
 
@@ -15,9 +15,8 @@ Six Jupyter notebooks explore spatial resolution, intensity quantization, region
 | 01 | [Image resizing](week2/01_resize_image.ipynb) | 0.25x, 0.5x, 2x, and 4x scaling with area/cubic interpolation |
 | 02 | [Intensity quantization](week2/02_intensity_quantization.ipynb) | Available gray levels, banding, and quantization error |
 | 03 | [Four levels and a sixteen-step palette](week2/03_four_to_sixteen_level_mapping.ipynb) | Palette remapping versus direct 16-level quantization |
-| 04 | [Quadrant quantization](week2/04_quadrant_quantization.ipynb) | Independent regions, exact reassembly, and residual maps |
-| 05 | [Whole image versus quadrants](week2/05_whole_image_vs_quadrants.ipynb) | Equivalent output and measured runtime with variability |
-| 06 | [Brightness and contrast](week2/06_brightness_contrast.ipynb) | NumPy/OpenCV pixel agreement, histograms, and timing |
+| 04 | [Whole image versus quadrants](week2/04_whole_image_vs_quadrants.ipynb) | Equivalent output and measured runtime with variability |
+| 05 | [Brightness and contrast](week2/05_brightness_contrast.ipynb) | NumPy/OpenCV pixel agreement, histograms, and timing |
 
 ## Photographs and provenance
 
@@ -28,9 +27,9 @@ The original files are included under [week2/assets/](week2/assets/). [Source cr
 
 ## Execution evidence
 
-**6 notebooks · 24 executed code cells · 12 embedded figures · 0 cell errors**
+**5 notebooks · 20 executed code cells · 10 embedded figures · 0 cell errors**
 
-Each notebook ran from top to bottom in a fresh IPython kernel. Both photographs passed the relevant numerical checks, including quantization bounds, odd-dimension reassembly, output equality, and a comparison over all 256 possible intensity values. All 12 resulting figures were visually reviewed for readable labels, consistent intensity scales, and complete layouts.
+Each notebook ran from top to bottom in a fresh IPython kernel. Both photographs passed the relevant numerical checks, including quantization bounds, odd-sized image handling, output equality, and a comparison over all 256 possible intensity values. All 10 resulting figures were visually reviewed for readable labels, consistent intensity scales, and complete layouts.
 
 See the [execution and validation record](week2/VALIDATION.md) and [machine-readable measurements](week2/validation.json). Notebook outputs are intentionally retained so the results are visible without rerunning anything.
 
