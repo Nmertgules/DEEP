@@ -1,0 +1,20 @@
+[
+  {
+    "name": "astronaut",
+    "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/astronaut.png",
+    "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+    "bytes": 791555,
+    "credit": "NASA",
+    "license": "Public domain",
+    "license_reference": "https://scikit-image.org/docs/0.25.x/api/skimage.data.html#skimage.data.astronaut"
+  },
+  {
+    "name": "coffee",
+    "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/coffee.png",
+    "sha256": "cc02f8ca188b167c775a7101b5d767d1e71792cf762c33d6fa15a4599b5a8de7",
+    "bytes": 466706,
+    "credit": "Rachel Michetti, courtesy of Pikolo Espresso Bar",
+    "license": "CC0 1.0",
+    "license_reference": "https://scikit-image.org/docs/0.25.x/api/skimage.data.html#skimage.data.coffee"
+  }
+]

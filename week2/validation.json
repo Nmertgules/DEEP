@@ -1,0 +1,417 @@
+{
+  "executed_at_utc": "2026-09-28T10:11:38.134023+00:00",
+  "python": "3.12.14",
+  "platform": "Windows",
+  "machine": "AMD64",
+  "logical_cpus": 12,
+  "packages": {
+    "numpy": "2.5.3",
+    "opencv-python": "5.0.0.93",
+    "matplotlib": "3.11.2",
+    "matplotlib-inline": "0.2.2",
+    "ipykernel": "7.3.0",
+    "nbclient": "0.11.0",
+    "nbformat": "5.11.1",
+    "nbconvert": "7.17.1"
+  },
+  "method": "Each notebook executed top-to-bottom in a fresh IPython kernel through NBClient; original saved task cells were executed without source substitution.",
+  "photos": [
+    {
+      "name": "astronaut",
+      "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/astronaut.png",
+      "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+      "bytes": 791555,
+      "credit": "NASA",
+      "license": "Public domain",
+      "license_reference": "https://scikit-image.org/docs/0.25.x/api/skimage.data.html#skimage.data.astronaut"
+    },
+    {
+      "name": "coffee",
+      "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/coffee.png",
+      "sha256": "cc02f8ca188b167c775a7101b5d767d1e71792cf762c33d6fa15a4599b5a8de7",
+      "bytes": 466706,
+      "credit": "Rachel Michetti, courtesy of Pikolo Espresso Bar",
+      "license": "CC0 1.0",
+      "license_reference": "https://scikit-image.org/docs/0.25.x/api/skimage.data.html#skimage.data.coffee"
+    }
+  ],
+  "notebooks": [
+    {
+      "notebook": "01_resize_image.ipynb",
+      "executed_code_cells": 4,
+      "embedded_figures": 2,
+      "errors": 0,
+      "results": {
+        "astronaut": {
+          "original_shape": [
+            512,
+            512,
+            3
+          ],
+          "output_shapes": {
+            "0.25": [
+              128,
+              128,
+              3
+            ],
+            "0.5": [
+              256,
+              256,
+              3
+            ],
+            "2.0": [
+              1024,
+              1024,
+              3
+            ],
+            "4.0": [
+              2048,
+              2048,
+              3
+            ]
+          }
+        },
+        "coffee": {
+          "original_shape": [
+            400,
+            600,
+            3
+          ],
+          "output_shapes": {
+            "0.25": [
+              100,
+              150,
+              3
+            ],
+            "0.5": [
+              200,
+              300,
+              3
+            ],
+            "2.0": [
+              800,
+              1200,
+              3
+            ],
+            "4.0": [
+              1600,
+              2400,
+              3
+            ]
+          }
+        }
+      },
+      "checks": [
+        "PASS: all eight photo resizes, output dtypes, and tiny/odd-dimension checks."
+      ],
+      "sha256": "7077aaaf366a0ee1247c6dc7f472159950bf288e079bc5a8ad3b7de703a808e8",
+      "bytes": 1684504
+    },
+    {
+      "notebook": "02_intensity_quantization.ipynb",
+      "executed_code_cells": 4,
+      "embedded_figures": 2,
+      "errors": 0,
+      "results": {
+        "astronaut": [
+          {
+            "levels": 2,
+            "observed_levels": 2,
+            "mean_absolute_error": 50.366477966308594,
+            "max_error": 127
+          },
+          {
+            "levels": 4,
+            "observed_levels": 4,
+            "mean_absolute_error": 26.225852966308594,
+            "max_error": 63
+          },
+          {
+            "levels": 8,
+            "observed_levels": 8,
+            "mean_absolute_error": 13.368064880371094,
+            "max_error": 31
+          },
+          {
+            "levels": 16,
+            "observed_levels": 16,
+            "mean_absolute_error": 6.533897399902344,
+            "max_error": 15
+          }
+        ],
+        "coffee": [
+          {
+            "levels": 2,
+            "observed_levels": 2,
+            "mean_absolute_error": 60.8228125,
+            "max_error": 127
+          },
+          {
+            "levels": 4,
+            "observed_levels": 4,
+            "mean_absolute_error": 28.948945833333333,
+            "max_error": 63
+          },
+          {
+            "levels": 8,
+            "observed_levels": 8,
+            "mean_absolute_error": 15.6440125,
+            "max_error": 31
+          },
+          {
+            "levels": 16,
+            "observed_levels": 16,
+            "mean_absolute_error": 7.712745833333333,
+            "max_error": 15
+          }
+        ]
+      },
+      "checks": [
+        "PASS: both photographs, quantization error bounds, and all 256 input intensities."
+      ],
+      "sha256": "c8d539741aaf6622224df8a36f6263a2ca00140b34656683153415a8ae33cb3c",
+      "bytes": 410321
+    },
+    {
+      "notebook": "03_four_to_sixteen_level_mapping.ipynb",
+      "executed_code_cells": 4,
+      "embedded_figures": 2,
+      "errors": 0,
+      "results": {
+        "astronaut": {
+          "four_level_values": [
+            0,
+            64,
+            128,
+            192
+          ],
+          "remapped_values": [
+            0,
+            85,
+            170,
+            255
+          ],
+          "direct16_values": [
+            0,
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            112,
+            128,
+            144,
+            160,
+            176,
+            192,
+            208,
+            224,
+            240
+          ]
+        },
+        "coffee": {
+          "four_level_values": [
+            0,
+            64,
+            128,
+            192
+          ],
+          "remapped_values": [
+            0,
+            85,
+            170,
+            255
+          ],
+          "direct16_values": [
+            0,
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            112,
+            128,
+            144,
+            160,
+            176,
+            192,
+            208,
+            224,
+            240
+          ]
+        }
+      },
+      "checks": [
+        "PASS: remapping keeps four levels; direct quantization produces 16 on the full ramp."
+      ],
+      "sha256": "3d02d2bb6576533abc22f4f4178ab81b254605ce6b98d037ae35eb2b4bd9f506",
+      "bytes": 487832
+    },
+    {
+      "notebook": "04_quadrant_quantization.ipynb",
+      "executed_code_cells": 4,
+      "embedded_figures": 2,
+      "errors": 0,
+      "results": {
+        "astronaut": {
+          "shape": [
+            512,
+            512
+          ],
+          "whole_image_equal": true,
+          "residual_min": 0,
+          "residual_max": 63,
+          "residual_mean": 26.225852966308594
+        },
+        "coffee": {
+          "shape": [
+            400,
+            600
+          ],
+          "whole_image_equal": true,
+          "residual_min": 0,
+          "residual_max": 63,
+          "residual_mean": 28.948945833333333
+        }
+      },
+      "checks": [
+        "PASS: both photographs, residual bounds, exact reassembly, and odd-dimension cases."
+      ],
+      "sha256": "d0bdaf7b9ecf33d77d7ec596f8c8a425e1647f4e15278b245c1302b093860888",
+      "bytes": 1156287
+    },
+    {
+      "notebook": "05_whole_image_vs_quadrants.ipynb",
+      "executed_code_cells": 4,
+      "embedded_figures": 2,
+      "errors": 0,
+      "results": {
+        "astronaut": {
+          "timings": {
+            "Whole image": {
+              "median_ms": 0.965472,
+              "q25_ms": 0.9502320000000001,
+              "q75_ms": 1.028536,
+              "batches": 9,
+              "calls_per_batch": 25
+            },
+            "Four quadrants": {
+              "median_ms": 0.429728,
+              "q25_ms": 0.425948,
+              "q75_ms": 0.434112,
+              "batches": 9,
+              "calls_per_batch": 25
+            }
+          },
+          "ratio": 0.4450962845116171,
+          "outputs_identical": true
+        },
+        "coffee": {
+          "timings": {
+            "Whole image": {
+              "median_ms": 0.31891200000000003,
+              "q25_ms": 0.31744,
+              "q75_ms": 0.32293999999999995,
+              "batches": 9,
+              "calls_per_batch": 25
+            },
+            "Four quadrants": {
+              "median_ms": 0.386716,
+              "q25_ms": 0.384392,
+              "q75_ms": 0.387708,
+              "batches": 9,
+              "calls_per_batch": 25
+            }
+          },
+          "ratio": 1.212610375275938,
+          "outputs_identical": true
+        }
+      },
+      "checks": [
+        "PASS: pixel equality for both photos and odd dimensions; quantized range verified."
+      ],
+      "sha256": "340265a6a71611843ee79238866b0f5ddc7e82310fc87e7191d5712f37a2c2b0",
+      "bytes": 407966
+    },
+    {
+      "notebook": "06_brightness_contrast.ipynb",
+      "executed_code_cells": 4,
+      "embedded_figures": 2,
+      "errors": 0,
+      "results": {
+        "astronaut": {
+          "max_pixel_difference": 0,
+          "mean_before": 115.4050521850586,
+          "mean_after": 106.55608749389648,
+          "output_min": 20,
+          "output_max": 211,
+          "timings": {
+            "NumPy": {
+              "median_ms": 1.5578159999999999,
+              "q25_ms": 1.53772,
+              "q75_ms": 1.591344,
+              "batches": 9,
+              "calls_per_batch": 25
+            },
+            "OpenCV": {
+              "median_ms": 0.038932,
+              "q25_ms": 0.036176,
+              "q75_ms": 0.039624,
+              "batches": 9,
+              "calls_per_batch": 25
+            }
+          }
+        },
+        "coffee": {
+          "max_pixel_difference": 0,
+          "mean_before": 103.6516125,
+          "mean_after": 97.74129166666667,
+          "output_min": 20,
+          "output_max": 211,
+          "timings": {
+            "NumPy": {
+              "median_ms": 0.8989480000000001,
+              "q25_ms": 0.8515560000000001,
+              "q75_ms": 0.9496479999999999,
+              "batches": 9,
+              "calls_per_batch": 25
+            },
+            "OpenCV": {
+              "median_ms": 0.036668,
+              "q25_ms": 0.03392,
+              "q75_ms": 0.045324,
+              "batches": 9,
+              "calls_per_batch": 25
+            }
+          }
+        }
+      },
+      "checks": [
+        "PASS: both photos, all 256 possible intensities, and endpoints. Ramp max difference: 0."
+      ],
+      "sha256": "0703b51749d469af66ba79d5f6f290f71bd9205d1ca57332326dad3af0a054c9",
+      "bytes": 743328
+    }
+  ],
+  "standalone_input_check": {
+    "notebook": "01_resize_image.ipynb",
+    "preexisting_assets": false,
+    "downloaded_and_hash_verified_photos": [
+      "astronaut",
+      "coffee"
+    ],
+    "result": "PASS"
+  },
+  "visual_review": {
+    "figures_reviewed": 12,
+    "result": "PASS",
+    "checks": [
+      "readable labels",
+      "complete layouts",
+      "consistent intensity scales",
+      "interpretable legends and colorbars"
+    ]
+  }
+}

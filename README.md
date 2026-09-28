@@ -1,37 +1,61 @@
 # Digital Image Processing — Week 2
 
-This repository contains a clean, reproducible set of Week 2 image-processing exercises.
+**Group members: Nmertgules and Iliya**
 
-**Group members:** Nmertgules and Iliya
+Six Jupyter notebooks explore spatial resolution, intensity quantization, regional processing, and linear brightness/contrast transforms. Every notebook has been executed on **two different web photographs**, with its plots, measurements, and verification outputs saved for viewing directly on GitHub.
 
-## Exercises
+![Executed coffee-photo quantization comparison](week2/preview.png)
 
-Each task is a separate Jupyter notebook in week2/.
+*Saved result from Task 02: the original coffee photograph and its 2-, 4-, 8-, and 16-level grayscale versions.*
 
-| Notebook | Purpose |
-| --- | --- |
-| [01_resize_image.ipynb](week2/01_resize_image.ipynb) | Resize an image at four scale factors |
-| [02_intensity_quantization.ipynb](week2/02_intensity_quantization.ipynb) | Compare grayscale quantization at 2, 4, 8, and 16 levels |
-| [03_four_to_sixteen_level_mapping.ipynb](week2/03_four_to_sixteen_level_mapping.ipynb) | Map four source levels onto a 16-step palette and explain the information limit |
-| [04_quadrant_quantization.ipynb](week2/04_quadrant_quantization.ipynb) | Quantize four image regions and inspect the residual |
-| [05_whole_image_vs_quadrants.ipynb](week2/05_whole_image_vs_quadrants.ipynb) | Compare whole-image and quadrant-wise processing time |
-| [06_brightness_contrast.ipynb](week2/06_brightness_contrast.ipynb) | Compare a linear transform in NumPy and OpenCV |
+## Notebooks
 
-## Setup and use
+| Task | Notebook | What it demonstrates |
+| --- | --- | --- |
+| 01 | [Image resizing](week2/01_resize_image.ipynb) | 0.25x, 0.5x, 2x, and 4x scaling with area/cubic interpolation |
+| 02 | [Intensity quantization](week2/02_intensity_quantization.ipynb) | Available gray levels, banding, and quantization error |
+| 03 | [Four levels and a sixteen-step palette](week2/03_four_to_sixteen_level_mapping.ipynb) | Palette remapping versus direct 16-level quantization |
+| 04 | [Quadrant quantization](week2/04_quadrant_quantization.ipynb) | Independent regions, exact reassembly, and residual maps |
+| 05 | [Whole image versus quadrants](week2/05_whole_image_vs_quadrants.ipynb) | Equivalent output and measured runtime with variability |
+| 06 | [Brightness and contrast](week2/06_brightness_contrast.ipynb) | NumPy/OpenCV pixel agreement, histograms, and timing |
 
-Install the dependencies and Jupyter with:
+## Photographs and provenance
 
-    python -m pip install -r requirements.txt
+- **Astronaut:** NASA portrait, 512 x 512 pixels, public domain.
+- **Coffee:** photograph by Rachel Michetti, courtesy of Pikolo Espresso Bar, 600 x 400 pixels, CC0.
 
-Open any notebook with Jupyter or Google Colab. To start Jupyter locally:
+The original files are included under [week2/assets/](week2/assets/). [Source credits](week2/assets/README.md) document the versioned download URLs, licensing references, and SHA-256 hashes. The notebooks verify the files before processing them. When opened alone in Colab, they download the same verified inputs automatically.
 
-    jupyter notebook week2/01_resize_image.ipynb
+## Execution evidence
 
-Each notebook uses the scikit-image camera sample by default. Set IMAGE_PATH in its code cell to a local image to use custom input. The notebooks are committed without saved cell outputs to keep the repository small; run the cell to reproduce the visualizations and measurements.
+**6 notebooks · 24 executed code cells · 12 embedded figures · 0 cell errors**
 
-## Method notes
+Each notebook ran from top to bottom in a fresh IPython kernel. Both photographs passed the relevant numerical checks, including quantization bounds, odd-dimension reassembly, output equality, and a comparison over all 256 possible intensity values. All 12 resulting figures were visually reviewed for readable labels, consistent intensity scales, and complete layouts.
 
-- The resize exercise uses area interpolation for downscaling and cubic interpolation for upscaling.
-- Mapping four quantized levels onto a 16-step palette does not restore discarded image detail; at most four distinct output levels remain.
-- The timing comparison checks that both methods produce identical pixels and includes splitting and reassembly in the quadrant measurement.
-- Timing depends on the machine, image size, and current system load.
+See the [execution and validation record](week2/VALIDATION.md) and [machine-readable measurements](week2/validation.json). Notebook outputs are intentionally retained so the results are visible without rerunning anything.
+
+## Reproduce the results
+
+The saved executions used Python 3.12 on Windows. Exact tested package versions are listed in [requirements.txt](requirements.txt).
+
+Create a virtual environment, activate it, and install the dependencies:
+
+```bash
+python -m venv .venv
+```
+
+On Windows PowerShell, activate with `.venv\Scripts\Activate.ps1`; on macOS/Linux, use `source .venv/bin/activate`.
+
+```bash
+python -m pip install -r requirements.txt
+python -m nbconvert --to notebook --execute --inplace week2/01_resize_image.ipynb
+```
+
+Replace the notebook path to execute another task. To use the Jupyter browser interface, additionally install `notebook` with `python -m pip install notebook`, run `jupyter notebook`, and choose **Restart Kernel and Run All**. VS Code with its Jupyter extension is also suitable.
+
+## Interpreting the results
+
+- Resizing changes the sample grid; upsampling cannot recreate missing spatial detail.
+- Four quantized codes remain at most four values after palette remapping. Genuine 16-level quantization needs the original intensities.
+- Whole-image and quadrant processing produce identical pixels here because the operation is independent for each pixel. Timings include conversion/allocation and, for quadrants, splitting and reassembly; the ranking can vary with the image and machine.
+- The transform `0.75x + 20` lifts dark intensities and compresses contrast. Intensities above 80 decrease, so a positive offset does not guarantee a higher mean brightness.
