@@ -1,0 +1,274 @@
+{
+  "cpu_workers": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "threading_layer": "omp",
+  "main_results": [
+    {
+      "task": 1,
+      "max_difference_opencv": 0,
+      "one_thread_ms": 0.18647359993337886,
+      "four_threads_ms": 0.17111619999923278,
+      "speedup": 1.0897483694367625
+    },
+    {
+      "task": 2,
+      "max_difference_opencv": 0,
+      "one_thread_ms": 0.38553760005015647,
+      "four_threads_ms": 0.3091152000706643,
+      "speedup": 1.2472295117225614
+    },
+    {
+      "task": 3,
+      "max_difference_opencv": 0,
+      "one_thread_ms": 2.78205220001837,
+      "four_threads_ms": 1.6946380001172656,
+      "speedup": 1.6416793438043153
+    },
+    {
+      "task": 4,
+      "max_difference_opencv": 0,
+      "one_thread_ms": 11.98007980001421,
+      "four_threads_ms": 6.604357800097205,
+      "speedup": 1.8139658938281453
+    },
+    {
+      "task": 5,
+      "max_difference_opencv": 0,
+      "one_thread_ms": 65.95502880009008,
+      "four_threads_ms": 36.90749640009017,
+      "speedup": 1.7870361100930419
+    }
+  ],
+  "edge_tests": [
+    {
+      "task": 2,
+      "shape": [
+        32,
+        33
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 3,
+      "shape": [
+        32,
+        33
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        32,
+        33
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        32,
+        33
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 2,
+      "shape": [
+        33,
+        32
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 3,
+      "shape": [
+        33,
+        32
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        33,
+        32
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        33,
+        32
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 2,
+      "shape": [
+        3,
+        5
+      ],
+      "max_difference": 1
+    },
+    {
+      "task": 3,
+      "shape": [
+        3,
+        5
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        3,
+        5
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        3,
+        5
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 2,
+      "shape": [
+        1,
+        40
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 3,
+      "shape": [
+        1,
+        40
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        1,
+        40
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        1,
+        40
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 2,
+      "shape": [
+        37,
+        53
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 3,
+      "shape": [
+        37,
+        53
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        37,
+        53
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        37,
+        53
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 2,
+      "shape": [
+        1,
+        1
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 3,
+      "shape": [
+        1,
+        1
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        1,
+        1
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        1,
+        1
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 2,
+      "shape": [
+        8,
+        8
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 3,
+      "shape": [
+        8,
+        8
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 4,
+      "shape": [
+        8,
+        8
+      ],
+      "max_difference": 0
+    },
+    {
+      "task": 5,
+      "shape": [
+        8,
+        8
+      ],
+      "max_difference": 0
+    }
+  ],
+  "constant_equalization_pass": true,
+  "gpu_tested": false
+}
