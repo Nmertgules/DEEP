@@ -21,10 +21,34 @@ Each task accepts an image path and optional `--threads 1` or `--threads 4` (def
 
 ## Tested results
 
-All five 384×512 task outputs matched OpenCV exactly (maximum pixel difference 0). One-thread and four-thread outputs were identical. Four distinct native worker IDs (0, 1, 2, 3) were observed using the OpenMP threading layer. Additional dimension and constant-image checks passed.
+All five 384×512 task outputs matched OpenCV exactly (maximum pixel difference 0). One-thread and four-thread outputs were identical. Four distinct native worker IDs (0, 1, 2, 3) were observed using the OpenMP threading layer.
 
-The initial nine-batch measurements showed speedups of approximately 1.09×, 1.25×, 1.64×, 1.81×, and 1.79× for Tasks 1–5. The benchmark compares the same compiled implementation with one versus four workers, excludes JIT compilation by warm-up, and includes allocations/preprocessing. Results depend on the machine and workload; these are not speedups against the original Python-loop scripts. See [test_sonuclari.json](test_sonuclari.json) for the initial measurements. Rerunning `test_cpu.py` saves a fresh report in `results/cpu_results.json`.
+### Latest timing comparison
+
+These are the recorded median times from the [latest test run](son_test_sonuclari.json).
+
+| Task | 1 thread (ms) | 4 threads (ms) | Speedup (1-thread time / 4-thread time) | Maximum pixel difference from OpenCV |
+| --- | ---: | ---: | ---: | ---: |
+| 1 · Linear contrast stretching | 0.241 | 0.709 | 0.34× | 0 |
+| 2 · Histogram equalization | 0.357 | 0.144 | 2.48× | 0 |
+| 3 · CLAHE | 2.444 | 1.050 | 2.33× | 0 |
+| 4 · 3×3 mean convolution | 13.782 | 4.523 | 3.05× | 0 |
+| 5 · 5×5 median filter | 68.791 | 27.158 | 2.53× | 0 |
+
+A ratio above 1 means four threads were faster; below 1 means they were slower.
+
+- **Task 1:** Four threads took about 2.95 times as long in this run. The small workload did not benefit from parallel execution in this measurement.
+- **Task 2:** Histogram counting and mapping produced the same pixels with approximately 2.48× speedup.
+- **Task 3:** Parallel CLAHE tile processing and interpolation produced the same pixels with approximately 2.33× speedup.
+- **Task 4:** The 3×3 mean filter produced the same pixels with approximately 3.05× speedup.
+- **Task 5:** The 5×5 median filter produced the same pixels with approximately 2.53× speedup.
+
+### Measurement method and additional checks
+
+Each timing is the median of nine batches, with five calls per batch. A warm-up excludes JIT compilation. Timings include allocations and CPU preprocessing. The comparison uses the **same compiled implementation with one versus four workers**, not the original Python-loop scripts.
+
+Measurements depend on machine load, image size, and thread overhead. The [initial run](test_sonuclari.json) gave different timings, including a small speedup for Task 1; four workers do not guarantee faster execution. Rerunning `test_cpu.py` writes a fresh report to `results/cpu_results.json`.
+
+The 28 additional shape comparisons passed the test tolerance of at most one intensity level. One 3×5 histogram-equalization case differed from OpenCV by one level due to rounding; all other recorded shape comparisons matched exactly. The constant-image equalization check also passed.
 
 The new implementation corrects CLAHE border padding and preserves constant images during histogram equalization. The [original version](../orijinal/) is retained without code changes. This folder uses CPU threads, not CUDA.
-
-A rerun after reorganizing the folders again passed all correctness checks. Its timings varied: Task 1 was slower with four workers, while Tasks 2–5 were faster. See [latest test measurements](son_test_sonuclari.json). Four workers do not guarantee a speedup for small workloads.
