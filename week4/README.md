@@ -2,7 +2,7 @@
 
 **Group members: Nmertgules and Iliya**
 
-3×3 Prewitt and Sobel kernels are tested on a grayscale image after light Gaussian smoothing, then compared. Every notebook runs on the CPU, and repeats its pipeline on the GPU when OpenCV was built with CUDA ([Week 1 setup](../week1/README.md)).
+3×3 Prewitt, Sobel and Laplacian kernels are tested on a grayscale image after light Gaussian smoothing, then compared. Every notebook runs on the CPU, and repeats its pipeline on the GPU when OpenCV was built with CUDA ([Week 1 setup](../week1/README.md)).
 
 ![Prewitt-x, Prewitt-y and combined gradient magnitude](results/task2_09_x_y_magnitude.png)
 
@@ -14,6 +14,7 @@
 | 2 | [Prewitt-y + Gauss](02_prewitt_y_gauss.ipynb) · [Colab](https://colab.research.google.com/github/iliyadindar/DEEP/blob/main/week4/02_prewitt_y_gauss.ipynb) | `[[-1 -1 -1], [0 0 0], [1 1 1]]` | horizontal edges, plus both combined as √(Gx² + Gy²) |
 | 3 | [Sobel x and y + Gauss](03_sobel_gauss.ipynb) · [Colab](https://colab.research.google.com/github/iliyadindar/DEEP/blob/main/week4/03_sobel_gauss.ipynb) | `[[-1 0 1], [-2 0 2], [-1 0 1]]` and its transpose | vertical and horizontal edges, magnitude |
 | 4 | **[One-page comparison (Turkish)](SOBEL_VS_PREWITT.md)** · [measurements](04_sobel_vs_prewitt.ipynb) | Sobel vs. Prewitt | similarity, direction accuracy, noise, speed |
+| 5 | [Laplacian + Gauss](05_laplacian_gauss.ipynb) · [Colab](https://colab.research.google.com/github/iliyadindar/DEEP/blob/main/week4/05_laplacian_gauss.ipynb) · **[comparison document (Turkish)](LAPLACIAN_VS_SOBEL_PREWITT.md)** | `[[0 1 0], [1 -4 1], [0 1 0]]` (and the 8-neighbour version) | edges as zero crossings, compared with Sobel and Prewitt |
 
 > *1. `[[-1 0 1], [-1 0 1], [-1 0 1]]` 3×3 Prewitt filtresini gri tonlamalı bir görüntü üzerinde test ediniz. Filtreyi görüntü üzerinde çalıştırmadan önce Gauss filtresi ile görüntüyü hafif yumuşatınız.*
 >
@@ -22,6 +23,8 @@
 > *3. 3×3 boyutunda yatay ve dikey Sobel filtrelerini benzer şekilde uygulayınız. Filtreleri görüntü üzerinde çalıştırmadan önce Gauss filtresi ile görüntüyü hafif yumuşatınız.*
 >
 > *4. Sobel ve Prewitt operatörlerinin sonuçlarını kıyaslayan bir sayfalık bir karşılaştırma metnini GitHub reponuza ekleyiniz.*
+>
+> *5. 3×3 boyutunda Laplacian Çekirdeği ile kenarların tespitini yapınız. Filtreleri görüntü üzerinde çalıştırmadan önce Gauss filtresi ile görüntüyü hafif yumuşatınız. Sonuçlarını Sobel ve Prewitt ile kıyaslayan bir karşılaştırma dokümanı hazırlayınız.*
 
 Pipeline in every task: **color → grayscale → Gaussian 5×5, σ = 1 → edge kernel → |response| for display**.
 
@@ -55,6 +58,10 @@ Test image: SpaceX Falcon 9 on the launch pad, 640×427, public domain ([source 
 
 Task 4 figures: [Sobel vs. Prewitt magnitudes and difference](results/task4_01_magnitudes_and_difference.png) · [edge strength vs. direction](results/task4_02_direction_test.png).
 
+Task 5 figures: [pipeline](results/task5_03_pipeline.png) · [zoom: +/− pair and zero crossing](results/task5_04_zoom_double_line.png) · [Prewitt / Sobel / Laplacian edge maps](results/task5_05_compare_sobel_prewitt_laplacian.png) · [noise](results/task5_06_noise.png) · [direction test](results/task5_07_direction_test.png).
+
+**Laplacian in short:** it is the second derivative, so an edge is where the response **crosses zero** (+ on the dark side, − on the bright side), not a peak. Zero crossings give 1–2 px thin edges, but the Laplacian has no direction information and is the most noise-sensitive of the three. The full comparison is in [LAPLACIAN_VS_SOBEL_PREWITT.md](LAPLACIAN_VS_SOBEL_PREWITT.md).
+
 **Correctness checks**
 
 - A hand-written NumPy filter matches `cv2.filter2D` exactly (max difference 0.0) in Tasks 1–2. Sobel via `filter2D` matches `cv2.Sobel` (max difference 1.4 × 10⁻⁴, float rounding).
@@ -76,8 +83,9 @@ The blur lowers both the noise and the edge heights. The noise drops more, so ed
 | 1 · Gauss + Prewitt-x | 0.0001 | 0.41 / 1.01 ms | 56.75 / 18.83 ms |
 | 2 · Gauss + Prewitt-y | 0.0002 | 0.65 / 1.16 ms | 45.98 / 18.05 ms |
 | 3 · Gauss + Sobel x, y, magnitude | 0.0002 | 0.82 / 1.50 ms | 77.98 / 22.54 ms |
+| 5 · Gauss + Laplacian | 0.0002 | 0.41 / 0.98 ms | 33.16 / 17.48 ms |
 
-GPU and CPU agree up to float rounding. For the small image, the GPU is slower because copying to and from the GPU costs more than the filtering. At 4K, it is 2.5–3.5× faster. The CPU numbers here are from Colab's 2-core CPU. The notebooks saved in this folder were executed on a CPU-only machine, so their GPU cells show "skipped".
+GPU and CPU agree up to float rounding. For the small image, the GPU is slower because copying to and from the GPU costs more than the filtering. At 4K, it is 1.9–3.5× faster. The CPU numbers here are from Colab's 2-core CPU. The notebooks saved in this folder were executed on a CPU-only machine, so their GPU cells show "skipped".
 
 ## Run it
 
@@ -87,7 +95,7 @@ GPU and CPU agree up to float rounding. For the small image, the GPU is slower b
 
 ```
 pip install -r requirements.txt
-for n in 01_prewitt_x_gauss 02_prewitt_y_gauss 03_sobel_gauss 04_sobel_vs_prewitt; do
+for n in 01_prewitt_x_gauss 02_prewitt_y_gauss 03_sobel_gauss 04_sobel_vs_prewitt 05_laplacian_gauss; do
   jupyter nbconvert --to notebook --execute week4/$n.ipynb --output-dir week4/executed
 done
 ```
