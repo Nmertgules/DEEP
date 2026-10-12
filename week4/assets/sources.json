@@ -1,0 +1,11 @@
+[
+  {
+    "name": "rocket",
+    "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/rocket.jpg",
+    "sha256": "c2dd0de7c538df8d111e479619b129464d0269d0ae5fd18ca91d33a7fdfea95c",
+    "bytes": 112525,
+    "credit": "SpaceX",
+    "license": "Public domain",
+    "license_reference": "https://scikit-image.org/docs/0.25.x/api/skimage.data.html#skimage.data.rocket"
+  }
+]
