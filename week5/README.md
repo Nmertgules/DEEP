@@ -1,4 +1,4 @@
-# Digital Image Processing — Week 5: Color Histograms
+# Digital Image Processing — Week 5: Color Histograms and Grayscale
 
 **Group members: Nmertgules and Iliya**
 
@@ -32,11 +32,11 @@ Not: Aralık genişliği kutu sayısına tam bölünmediğinde OpenCV kayan nokt
 
 ![Görev 2 — Elle hesaplanan](results/task2_histograms.svg)
 
-Bu iki maddede thread/CUDA istenmediği için bu teslim normal CPU uygulamasıdır.
+Bu maddelerde thread/CUDA istenmediği için bu teslim normal CPU uygulamasıdır.
 
 ## Görev 3 — Griye dönüşüm sonuçları
 
-`Y = 0.299R + 0.587G + 0.114B` formülü kendi fonksiyonumuzda uygulanır. Kanal sırası BGR olarak ele alınır; en yakın tamsayıya yuvarlanır. İki çıktı da tek kanallı uint8 görüntüdür. Fark hesabından önce int16'ya dönüştürülerek taşma önlenir.
+`Y = 0.299R + 0.587G + 0.114B` formülü kendi fonksiyonumuzda uygulanır. Kanal sırası BGR olarak ele alınır. Hesap kayan nokta olmadan tam sayı aritmetiğiyle yapılır: `(114·B + 587·G + 299·R + 500) // 1000`, yani en yakın tam sayıya tam doğru yuvarlama. İki çıktı da tek kanallı uint8 görüntüdür. Fark hesabından önce int16'ya dönüştürülerek taşma önlenir.
 
 | Ölçüt | Sonuç |
 | --- | --- |
@@ -46,8 +46,10 @@ Bu iki maddede thread/CUDA istenmediği için bu teslim normal CPU uygulamasıd�
 | Ortalama mutlak fark | 0.000004 |
 | RMSE | 0.001913 |
 
-Bir gri seviyelik farklar OpenCV'nin katsayı/tamsayı yaklaşımı ve yuvarlama davranışı ile kendi hesabımızın farklılığından kaynaklanır. Sonuçlar gözle çok benzerdir; aynı oldukları varsayılmadan piksel düzeyinde karşılaştırılmıştır. Siyah/beyaz ve saf BGR renkleri, 256 nötr gri ve sabit tohumlu rastgele görüntü kontrolleri geçti.
+Farklı olan tek piksel (satır 392, sütun 183; BGR = 87, 205, 255) için tam değer 206,498'dir: doğru yuvarlama 206'dır, kendi fonksiyonumuz 206, OpenCV 207 verir. Yani fark OpenCV'nin sabit noktalı katsayı yaklaşımından gelir; bizim sonucumuz formüle göre tam doğrudur. Sonuçlar gözle aynıdır; aynı oldukları varsayılmadan piksel düzeyinde karşılaştırılmıştır.
+
+Siyah/beyaz ve saf BGR renkleri, 256 nötr gri ve sabit tohumlu rastgele görüntü kontrolleri geçti. Olası 256³ = 16.777.216 rengin tamamı da denendi: 20.753 renkte (%0,12) OpenCV ile 1 gri seviye fark var, hiçbir renkte fark 1'i geçmiyor (OpenCV 5.0).
 
 ![Görev 3 karşılaştırması](results/task3_comparison.png)
 
-Fark paneli 0–1 ölçeğinde görünür kılınmıştır. [Gerçek mutlak fark görüntüsü](results/task3_absolute_difference.png) 0–255 gösterimde neredeyse siyah görünür. [OpenCV çıktısı](results/task3_opencv_gray.png) · [Kendi çıktımız](results/task3_manual_gray.png) · [Sayısal sonuçlar](results/task3_metrics.json).
+Fark paneli 0–1 ölçeğinde gösterilir ve farklı pikseller camgöbeği halkayla işaretlenir; tek piksel bu boyutta tek başına görünmez. [Gerçek mutlak fark görüntüsü](results/task3_absolute_difference.png) 0–255 gösterimde neredeyse siyah görünür. [OpenCV çıktısı](results/task3_opencv_gray.png) · [Kendi çıktımız](results/task3_manual_gray.png) · [Sayısal sonuçlar](results/task3_metrics.json).
