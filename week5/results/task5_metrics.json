@@ -1,0 +1,47 @@
+[
+  {
+    "file": "image_0_1000.jpg",
+    "width": 789,
+    "height": 478,
+    "gray_min": 26,
+    "gray_max": 255,
+    "mean_absolute_color_difference": 171.28687603077887,
+    "different_pixel_percent": 100.0
+  },
+  {
+    "file": "image_0_1054.jpg",
+    "width": 151,
+    "height": 429,
+    "gray_min": 38,
+    "gray_max": 254,
+    "mean_absolute_color_difference": 182.8266053299166,
+    "different_pixel_percent": 100.0
+  },
+  {
+    "file": "image_0_1062.jpg",
+    "width": 61,
+    "height": 263,
+    "gray_min": 74,
+    "gray_max": 254,
+    "mean_absolute_color_difference": 174.88437324689895,
+    "different_pixel_percent": 100.0
+  },
+  {
+    "file": "image_0_1071.jpg",
+    "width": 149,
+    "height": 266,
+    "gray_min": 29,
+    "gray_max": 254,
+    "mean_absolute_color_difference": 191.40095204454087,
+    "different_pixel_percent": 100.0
+  },
+  {
+    "file": "image_0_1072.jpg",
+    "width": 581,
+    "height": 478,
+    "gray_min": 10,
+    "gray_max": 254,
+    "mean_absolute_color_difference": 142.86044356745572,
+    "different_pixel_percent": 100.0
+  }
+]

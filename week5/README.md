@@ -1,4 +1,4 @@
-# Digital Image Processing — Week 5: Color Histograms and Grayscale
+# Digital Image Processing — Week 5: Color Histograms, Color Spaces and X-ray Recoloring
 
 **Group members: Nmertgules and Iliya**
 
@@ -9,6 +9,8 @@
 | 1 | [OpenCV histogramları](01_color_histograms_opencv.ipynb) | Renkli görüntüyü oku ve göster; `cv2.calcHist`'i renkli görüntüye uygulayıp `channels=[i]` ile B, G, R kanallarını tek tek seç, ayrı çiz ve üçünü bir grafikte karşılaştır. |
 | 2 | [Elle histogram hesabı](02_color_histograms_manual.ipynb) | `calc_hist` fonksiyonunu piksel sayaçlarıyla kendimiz yaz; her kanalda ayrı çalıştır, çiz ve OpenCV ile üst üste karşılaştır. |
 | 3 | [Griye dönüşüm ve karşılaştırma](03_grayscale_comparison.ipynb) | Renkli görüntüyü OpenCV ve kendi ağırlıklı dönüşümümüzle tek kanallı griye çevir; aynı konumdaki pikselleri karşılaştırıp farkları raporla. |
+| 4 | [Renk uzayı dönüşümleri](04_color_space_conversions.ipynb) | Kendi YCrCb/HSV/Lab fonksiyonları ve sıfır hata karşılaştırması; ek HSI/normalize rgb. |
+| 5 | [X-ray renklendirme](05_xray_recoloring.ipynb) | Beş ThreatsRGB görüntüsü: griye dönüşüm, Cividis paleti, seçim gerekçesi ve yorumlar. |
 
 Varsayılan histogram 256 kutuludur: yatay eksen 0–255 piksel değerini, dikey eksen bu değere sahip piksel sayısını gösterir. OpenCV kanalları **BGR** sırasıyla okur; fotoğraf ekranda RGB'ye çevrilerek doğru renklerle gösterilir.
 
@@ -53,3 +55,21 @@ Siyah/beyaz ve saf BGR renkleri, 256 nötr gri ve sabit tohumlu rastgele görün
 ![Görev 3 karşılaştırması](results/task3_comparison.png)
 
 Fark paneli 0–1 ölçeğinde gösterilir ve farklı pikseller camgöbeği halkayla işaretlenir; tek piksel bu boyutta tek başına görünmez. [Gerçek mutlak fark görüntüsü](results/task3_absolute_difference.png) 0–255 gösterimde neredeyse siyah görünür. [OpenCV çıktısı](results/task3_opencv_gray.png) · [Kendi çıktımız](results/task3_manual_gray.png) · [Sayısal sonuçlar](results/task3_metrics.json).
+
+## Görev 4 — Renk uzayı dönüşümleri (CPU)
+
+[Uygulama modülü](color_conversions.py) kendi dönüşüm hesaplarını içerir. Notebook, YCrCb/HSV/Lab için hazır OpenCV dönüşümünü yalnız referans olarak çağırır. Ödev görüntüsünde ve **16.777.216 olası rengin tamamında** üç dönüşümün her biri için toplam mutlak hata **0**, maksimum hata **0** oldu (OpenCV 5.0.0). Test tekrar üretilebilir ve partiler hâlinde çalışır. HSI ve normalize rgb de PDF formülleriyle uygulanıp kontrol edildi; bunlar için doğrudan OpenCV referansı olmadığı açıkça belirtilir. [Sayısal rapor](results/task4_metrics.json).
+
+![Dönüşüm kanalları](results/task4_channels.png)
+
+## Görev 5 — X-ray renklendirme (CPU)
+
+Beş özgün **ThreatsRGB** görüntüsü ve [kaynak kayıtları](assets/xray_sources.json) eklendi. Kaggle toplu indirme bağlantısı 404 verdiği için veri seti sahibinin özgün GitHub deposu kullanıldı. Klasörün gerçek adı `ThreatsRGB`; ödevdeki `ThreadsRGB` ile bu kastedildiği kabul edildi.
+
+Görüntüler önce tek kanallı griye, ardından ters gri üzerinde **Cividis** paletine çevrildi. Açık arka plan koyu maviye, koyu nesneler sarıya yaklaşır; tekdüze bir ölçekle şekil ve parlaklık farkları gösterilir. Malzeme sınıfları geri kazanılmaz; renklendirme bir tehdit dedektörü değildir. Her görüntünün ayrı yorumu ve özgün renklendirmeyle farkları notebook'ta verilir. Operatör başarımı için insan deneyi yapılmadı.
+
+Beş görüntüde boyut, veri türü, kaynak SHA256 ve palet eşleme kontrolleri geçti. [Sayısal renk farkları](results/task5_metrics.json) doğruluk puanı değil, iki renklendirmenin farklılığını gösteren ölçümlerdir.
+
+![Beş görüntünün karşılaştırması](results/task5_comparison.png)
+
+Bu iki yeni görev **CUDA kullanmadan** tamamlandı. CUDA sürümleri bu teslimde eklenmedi.

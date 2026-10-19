@@ -1,0 +1,34 @@
+{
+  "dataset": "HUMS X-ray Dataset",
+  "requested_kaggle": "https://www.kaggle.com/datasets/orvile/hums-x-ray-dataset",
+  "source_repository": "https://github.com/ElifErarslan1/HUMS-X-ray-Dataset",
+  "folder": "ThreatsRGB",
+  "usage": "Academic use per original README",
+  "images": [
+    {
+      "file": "image_0_1000.jpg",
+      "url": "https://raw.githubusercontent.com/ElifErarslan1/HUMS-X-ray-Dataset/main/ThreatsRGB/image_0_1000.jpg",
+      "sha256": "211b963fcedf79f2d1593fa9d9e89b67bb03289e6fc52c93ad33e574c2a06dd5"
+    },
+    {
+      "file": "image_0_1054.jpg",
+      "url": "https://raw.githubusercontent.com/ElifErarslan1/HUMS-X-ray-Dataset/main/ThreatsRGB/image_0_1054.jpg",
+      "sha256": "0f15b5c001b890fede2207fc94ea6fbe875df57ee4691aef63745d8c16fe729a"
+    },
+    {
+      "file": "image_0_1062.jpg",
+      "url": "https://raw.githubusercontent.com/ElifErarslan1/HUMS-X-ray-Dataset/main/ThreatsRGB/image_0_1062.jpg",
+      "sha256": "2cf2e2cfbf1b6ddf8d1a6a12a24f6cfff4c68aaf276e82d08849540545efa49f"
+    },
+    {
+      "file": "image_0_1071.jpg",
+      "url": "https://raw.githubusercontent.com/ElifErarslan1/HUMS-X-ray-Dataset/main/ThreatsRGB/image_0_1071.jpg",
+      "sha256": "e1eb9213155b08161ca4e90861df4320efe5c6c23845c47230588db860f62620"
+    },
+    {
+      "file": "image_0_1072.jpg",
+      "url": "https://raw.githubusercontent.com/ElifErarslan1/HUMS-X-ray-Dataset/main/ThreatsRGB/image_0_1072.jpg",
+      "sha256": "b718d0b45abf5218f06f733192f1e22b4c33dd8a1bbeeef2e7612b0f06f4c7e3"
+    }
+  ]
+}

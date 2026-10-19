@@ -1,0 +1,44 @@
+{
+  "opencv_version": "5.0.0",
+  "image_results": {
+    "YCrCb": {
+      "sum_absolute_error": 0,
+      "max_absolute_error": 0,
+      "mean_absolute_error": 0.0,
+      "different_pixels": 0
+    },
+    "HSV": {
+      "sum_absolute_error": 0,
+      "max_absolute_error": 0,
+      "mean_absolute_error": 0.0,
+      "different_pixels": 0
+    },
+    "Lab": {
+      "sum_absolute_error": 0,
+      "max_absolute_error": 0,
+      "mean_absolute_error": 0.0,
+      "different_pixels": 0
+    }
+  },
+  "all_colors": {
+    "YCrCb": {
+      "tested_colors": 16777216,
+      "sum_absolute_error": 0,
+      "max_absolute_error": 0
+    },
+    "HSV": {
+      "tested_colors": 16777216,
+      "sum_absolute_error": 0,
+      "max_absolute_error": 0
+    },
+    "Lab": {
+      "tested_colors": 16777216,
+      "sum_absolute_error": 0,
+      "max_absolute_error": 0
+    }
+  },
+  "supplemental": {
+    "HSI": "formula checks passed; no direct cvtColor reference",
+    "normalized_rgb": "sum/nonblack and black checks passed; no direct cvtColor reference"
+  }
+}
