@@ -1,0 +1,10 @@
+{
+  "width": 640,
+  "height": 427,
+  "total_pixels": 273280,
+  "different_pixels": 1,
+  "different_percent": 0.0003659250585480094,
+  "max_absolute_difference": 1,
+  "mean_absolute_difference": 3.6592505854800937e-06,
+  "rmse": 0.0019129167743213748
+}
