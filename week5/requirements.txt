@@ -3,3 +3,5 @@ opencv-python
 matplotlib
 jupyter
 ipykernel
+kagglehub
+# Yalnızca 06_cuda.ipynb için, NVIDIA GPU + CUDA 12: pip install cupy-cuda12x

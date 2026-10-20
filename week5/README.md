@@ -1,4 +1,4 @@
-# Digital Image Processing — Week 5: Color Histograms and Grayscale
+# Digital Image Processing — Week 5: Color Histograms, Grayscale, Color Spaces, X-ray Pseudocolor
 
 **Group members: Nmertgules and Iliya**
 
@@ -6,50 +6,45 @@
 
 | Görev | Dosya | Yapılan işlem |
 | --- | --- | --- |
-| 1 | [OpenCV histogramları](01_color_histograms_opencv.ipynb) | Renkli görüntüyü oku ve göster; `cv2.calcHist`'i renkli görüntüye uygulayıp `channels=[i]` ile B, G, R kanallarını tek tek seç, ayrı çiz ve üçünü bir grafikte karşılaştır. |
-| 2 | [Elle histogram hesabı](02_color_histograms_manual.ipynb) | `calc_hist` fonksiyonunu piksel sayaçlarıyla kendimiz yaz; her kanalda ayrı çalıştır, çiz ve OpenCV ile üst üste karşılaştır. |
-| 3 | [Griye dönüşüm ve karşılaştırma](03_grayscale_comparison.ipynb) | Renkli görüntüyü OpenCV ve kendi ağırlıklı dönüşümümüzle tek kanallı griye çevir; aynı konumdaki pikselleri karşılaştırıp farkları raporla. |
+| 1 | [OpenCV histogramları](01_color_histograms_opencv.ipynb) | Renkli görüntüyü oku ve göster; B, G, R kanallarının histogramlarını `cv2.calcHist` ile (renkli görüntü üzerinde `channels=[i]`) ayrı hesapla, ayrı ayrı ve üst üste çiz. |
+| 2 | [Elle histogram hesabı](02_color_histograms_manual.ipynb) | `calc_hist` fonksiyonunu piksel sayaçlarıyla kendimiz yaz (isteğe bağlı `bins`, `value_range`, `mask`); her kanalda ayrı çalıştır ve çiz. |
+| 3 | [Gri dönüşüm](03_grayscale.ipynb) | Görüntüyü hem `cv2.cvtColor` hem kendi fonksiyonumuzla tek kanallı griye çevir; eşleşen piksellerin mutlak farklarının toplamını hata değeri olarak raporla. |
+| 4 | [Renk uzayları](04_color_spaces.ipynb) | BGR → GRAY / YCrCb / YUV / XYZ / HSV ve YCrCb → BGR dönüşümlerini kendimiz yaz; dönüşüm tablosu (fonksiyon pointer karşılığı) ile çağır; `cv2.cvtColor` ile karşılaştır, hata değerlerini yazdır. |
+| 5 | [X-ray renklendirme](05_xray_pseudocolor.ipynb) | HUMS X-ray veri setinin `ThreatsRGB` klasöründen 5 görüntüyü griye çevir, operatörler için renklendir, palet seçimini açıkla, orijinalle farkları yorumla. |
+| Haftalık ödev | [CUDA](06_cuda.ipynb) | Görev 1–5'in tamamını CUDA C++ kernel'larıyla (CuPy `RawModule`) yeniden gerçekle; Görev 4'te `__device__` fonksiyon pointer tablosu. |
 
-Varsayılan histogram 256 kutuludur: yatay eksen 0–255 piksel değerini, dikey eksen bu değere sahip piksel sayısını gösterir. OpenCV kanalları **BGR** sırasıyla okur; fotoğraf ekranda RGB'ye çevrilerek doğru renklerle gösterilir.
-
-`calc_hist(channel, bins=256, value_range=(0, 256), mask=None)` imzası `cv2.calcHist`'e benzer: kutu sayısı ve yarı açık `[alt, üst)` değer aralığı seçilebilir, aralık dışındaki değerler sayılmaz, maske verilirse yalnızca maskesi sıfırdan farklı pikseller sayılır. Hesap yine iki döngüyle, her piksel için `kutu = (değer − alt) × kutu_sayısı // aralık_genişliği` tam sayı formülüyle yapılır.
+Her histogram 256 kutuludur: yatay eksen 0–255 piksel değerini, dikey eksen bu değere sahip piksel sayısını gösterir. OpenCV kanalları **BGR** sırasıyla okur; fotoğraf ekranda RGB'ye çevrilerek doğru renklerle gösterilir.
 
 ## Çalıştırma
 
-Repoyu bütünüyle indirin. `pip install -r week5/requirements.txt` komutundan sonra notebook'ları VS Code/Jupyter'da Python ortamınızı seçerek baştan sona çalıştırın. Repo kökünden veya `week5` klasöründen çalışırlar: notebook, çalışılan klasörden yukarı doğru `week4/assets/rocket.jpg` dosyasını arayarak repo kökünü kendisi bulur.
+Repoyu bütünüyle indirin. `pip install -r week5/requirements.txt` komutundan sonra notebook'ları VS Code/Jupyter'da Python ortamınızı seçerek baştan sona çalıştırın. Repo kökünden veya `week5` klasöründen çalışırlar. 03–06 notebook'ları repo dışında (ör. Colab) açıldığında fotoğrafı GitHub'dan kendileri indirir.
 
-Girdi, Week 4'teki mevcut [renkli rocket.jpg](../week4/assets/rocket.jpg) fotoğrafıdır; [kaynak ve lisans kaydı](../week4/assets/sources.json) aynı yerde tutulur. Notebook'ların kaydedilmiş çıktıları GitHub üzerinde görülebilir.
+- Görev 1–4'ün girdisi, Week 4'teki mevcut [renkli rocket.jpg](../week4/assets/rocket.jpg) fotoğrafıdır; [kaynak ve lisans kaydı](../week4/assets/sources.json) aynı yerde tutulur.
+- Görev 5, [HUMS X-ray Dataset](https://www.kaggle.com/datasets/orvile/hums-x-ray-dataset)'i `kagglehub` ile indirir (~128 MB, herkese açık). Görevde klasör adı "ThreadsRGB" olarak geçiyor; veri setindeki gerçek adı `ThreatsRGB`'dir.
+- `06_cuda.ipynb` NVIDIA GPU ve CuPy ister. Colab'da *Runtime → Change runtime type → T4 GPU* seçin; CuPy Colab'da hazırdır. Kendi bilgisayarınızda CUDA 12 için `pip install cupy-cuda12x`.
+
+Notebook'ların kaydedilmiş çıktıları GitHub üzerinde görülebilir.
 
 ## Çalıştırılan sonuçlar
 
-640 × 427 renkli görüntüyle iki görev de CPU'da çalıştırıldı. Her kanalın histogram toplamı **273.280 piksel** oldu. Elle yazılan fonksiyon, üç kanalın tamamında OpenCV ile **birebir aynı** sonucu verdi; maksimum kutu farkı **0**.
-
-Elle sonucu bilinen küçük görüntü, tamamen 0, tamamen 255 ve sabit tohumlu rastgele görüntü kontrolleri de geçti. Farklı kutu sayıları ve aralıklar (0–256'da 32 ve 16 kutu, 64–192'de 8 kutu, 50–200'de 15 kutu), dairesel maske ve hatalı girdilerin reddedilmesi de OpenCV'ye karşı test edildi.
-
-Not: Aralık genişliği kutu sayısına tam bölünmediğinde OpenCV kayan noktalı hesap yüzünden tam kutu sınırındaki bir değeri bazen alttaki kutuya koyar; örneğin 50–200 aralığında 10 kutuda 65 değeri 1. değil 0. kutuya düşer (OpenCV 5.0 ile görüldü). `calc_hist` tam sayı aritmetiği kullandığı için bu durumda doğru kutuyu verir; bu yüzden OpenCV karşılaştırmaları yalnızca OpenCV'nin de tam sonuç verdiği aralıklarla yapılır, sınır davranışı ayrıca elle test edilir. Görev 2'de hazır histogram fonksiyonu yalnızca sonuç doğrulaması için kullanılır; asıl hesap iki döngü ve 256 sayaçla yapılır.
+**Görev 1–2.** 640 × 427 renkli görüntüde her kanalın histogram toplamı **273.280 piksel** oldu. Elle yazılan fonksiyon, üç kanalın tamamında OpenCV ile **birebir aynı** sonucu verdi; maksimum kutu farkı **0**. Elle sonucu bilinen küçük görüntü, tamamen 0, tamamen 255 ve sabit tohumlu rastgele görüntü kontrolleri de geçti. Farklı kutu sayıları, değer aralıkları ve dairesel maske ile yapılan karşılaştırmalar da OpenCV ile birebir aynı çıktı. Kutu indeksi tam sayı işlemiyle hesaplandığı için aralık kutu sayısına tam bölünmediğinde de sonuç kesindir; OpenCV bu durumda tam kutu sınırındaki bazı değerleri kayan nokta yuvarlaması yüzünden alt kutuya koyabilir. Görev 2'de hazır histogram fonksiyonu yalnızca sonuç doğrulaması için kullanılır; asıl hesap iki döngü ve sayaçlarla yapılır.
 
 ![Görev 1 — OpenCV](results/task1_histograms.svg)
 
 ![Görev 2 — Elle hesaplanan](results/task2_histograms.svg)
 
-Bu maddelerde thread/CUDA istenmediği için bu teslim normal CPU uygulamasıdır.
+**Görev 3.** Kendi gri dönüşüm fonksiyonumuz OpenCV'nin 8 bit hesabıyla aynı 15 bit sabit noktalı BT.601 katsayılarını (9798, 19235, 3735) kullanır. **Hata değeri (mutlak farklar toplamı) 0**; bütün 16.777.216 olası renkte de 0. Aynı formülün kayan noktalı hali fotoğrafta 1, bütün renklerde 22.906 hata verir (yalnızca 1 seviyelik yuvarlama farkları). Karşılaştırma için: kanalların basit ortalaması 1.485.367, BGR'yi RGB sanmak 2.060.383 hata üretir.
 
-## Görev 3 — Griye dönüşüm sonuçları
+![Görev 3](results/task3_grayscale.png)
 
-`Y = 0.299R + 0.587G + 0.114B` formülü kendi fonksiyonumuzda uygulanır. Kanal sırası BGR olarak ele alınır. Hesap kayan nokta olmadan tam sayı aritmetiğiyle yapılır: `(114·B + 587·G + 299·R + 500) // 1000`, yani en yakın tam sayıya tam doğru yuvarlama. İki çıktı da tek kanallı uint8 görüntüdür. Fark hesabından önce int16'ya dönüştürülerek taşma önlenir.
+**Görev 4.** Altı dönüşümün hepsinde, hem fotoğrafta hem de bütün 16.777.216 renkte **hata değeri 0** (beklenen değer). Bunun için OpenCV'nin yuvarlama biçimi de aynen uygulandı: sabit noktalı katsayılar, `CV_DESCALE`, HSV bölme tabloları ve 0–255 kırpma. Sonuç OpenCV 4.12 ve 5.0 ile kontrol edildi.
 
-| Ölçüt | Sonuç |
-| --- | --- |
-| Toplam piksel | 273280 |
-| Farklı piksel | 1 (%0.0004) |
-| Maksimum mutlak fark | 1 gri seviye |
-| Ortalama mutlak fark | 0.000004 |
-| RMSE | 0.001913 |
+![Görev 4](results/task4_color_spaces.png)
 
-Farklı olan tek piksel (satır 392, sütun 183; BGR = 87, 205, 255) için tam değer 206,498'dir: doğru yuvarlama 206'dır, kendi fonksiyonumuz 206, OpenCV 207 verir. Yani fark OpenCV'nin sabit noktalı katsayı yaklaşımından gelir; bizim sonucumuz formüle göre tam doğrudur. Sonuçlar gözle aynıdır; aynı oldukları varsayılmadan piksel düzeyinde karşılaştırılmıştır.
+**Görev 5.** Palet, operatörlerin bildiği çift enerjili X-ray renk dilini izler (mavi: metal/yoğun, yeşil: karışık, turuncu: organik, koyu: içinden geçilemeyen). Hangi gri seviyenin hangi renge gideceği, seçilen 5 görüntü dışındaki 145 görüntünün istatistiğinden belirlendi; renklerin açıklığı gri seviyeyi izler (CIELAB `L*`). Orijinalle karşılaştırıldığında mavi piksellerin %93,5'i, turuncu piksellerin %80,6'sı aynı renkte kalırken yeşilin yalnızca %6,8'i geri geldi; ortalama ΔE 16–23. Fark, orijinal rengin iki enerji ölçümünden (madde türü) gelmesinden, gri görüntüde ise yalnızca toplam zayıflamanın kalmasından kaynaklanır: bu bir yoğunluk renklendirmesidir, madde renklendirmesi değildir. Ayrıntılı yorum notebook'ta.
 
-Siyah/beyaz ve saf BGR renkleri, 256 nötr gri ve sabit tohumlu rastgele görüntü kontrolleri geçti. Olası 256³ = 16.777.216 rengin tamamı da denendi: 20.753 renkte (%0,12) OpenCV ile 1 gri seviye fark var, hiçbir renkte fark 1'i geçmiyor (OpenCV 5.0).
+![Görev 5 — palet](results/task5_palette.png)
 
-![Görev 3 karşılaştırması](results/task3_comparison.png)
+![Görev 5](results/task5_xray.png)
 
-Fark paneli 0–1 ölçeğinde gösterilir ve farklı pikseller camgöbeği halkayla işaretlenir; tek piksel bu boyutta tek başına görünmez. [Gerçek mutlak fark görüntüsü](results/task3_absolute_difference.png) 0–255 gösterimde neredeyse siyah görünür. [OpenCV çıktısı](results/task3_opencv_gray.png) · [Kendi çıktımız](results/task3_manual_gray.png) · [Sayısal sonuçlar](results/task3_metrics.json).
+**Haftalık ödev (CUDA).** `06_cuda.ipynb` her görevi CUDA kernel'larıyla yapar ve sonucu OpenCV/CPU sürümüyle karşılaştırır (beklenen hata değeri her yerde 0). Kernel kaynağı NVRTC ile T4 (sm_75) ve A100 (sm_80) için hatasız derlendi; dönüşüm fonksiyonlarının mantığı CPU'da bütün 16.777.216 renkte OpenCV ile karşılaştırıldı (hata 0). Bu notebook'un çıktıları ve süre ölçümleri GPU'lu bir ortamda (ör. Colab T4) çalıştırıldığında oluşur.
