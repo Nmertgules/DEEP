@@ -1,0 +1,7 @@
+numpy
+opencv-python
+matplotlib
+scikit-image
+jupyter
+ipykernel
+# Bölüm 6 (CUDA) için ayrıca NVIDIA GPU ve CUDA Toolkit (nvcc) gerekir; Colab'ın GPU çalışma zamanında hazırdır.
