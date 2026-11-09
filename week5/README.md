@@ -21,7 +21,7 @@ Repoyu bütünüyle indirin. `pip install -r week5/requirements.txt` komutundan 
 
 - Görev 1–4'ün girdisi, Week 4'teki mevcut [renkli rocket.jpg](../week4/assets/rocket.jpg) fotoğrafıdır; [kaynak ve lisans kaydı](../week4/assets/sources.json) aynı yerde tutulur.
 - Görev 5, [HUMS X-ray Dataset](https://www.kaggle.com/datasets/orvile/hums-x-ray-dataset)'i `kagglehub` ile indirir (~128 MB, herkese açık). Görevde klasör adı "ThreadsRGB" olarak geçiyor; veri setindeki gerçek adı `ThreatsRGB`'dir.
-- `06_cuda.ipynb` NVIDIA GPU ve CuPy ister. Colab'da *Runtime → Change runtime type → T4 GPU* seçin; CuPy Colab'da hazırdır. Kendi bilgisayarınızda CUDA 12 için `pip install cupy-cuda12x`.
+- `06_cuda.ipynb` NVIDIA GPU ve CuPy ister. Colab'da *Runtime → Change runtime type → T4 GPU* seçin; CuPy Colab'da hazırdır. Kendi bilgisayarınızda CUDA 13 için `pip install cupy-cuda13x`, CUDA 12 için `pip install cupy-cuda12x`.
 
 Notebook'ların kaydedilmiş çıktıları GitHub üzerinde görülebilir.
 
@@ -47,4 +47,13 @@ Notebook'ların kaydedilmiş çıktıları GitHub üzerinde görülebilir.
 
 ![Görev 5](results/task5_xray.png)
 
-**Haftalık ödev (CUDA).** `06_cuda.ipynb` her görevi CUDA kernel'larıyla yapar ve sonucu OpenCV/CPU sürümüyle karşılaştırır (beklenen hata değeri her yerde 0). Kernel kaynağı NVRTC ile T4 (sm_75) ve A100 (sm_80) için hatasız derlendi; dönüşüm fonksiyonlarının mantığı CPU'da bütün 16.777.216 renkte OpenCV ile karşılaştırıldı (hata 0). Bu notebook'un çıktıları ve süre ölçümleri GPU'lu bir ortamda (ör. Colab T4) çalıştırıldığında oluşur.
+**Haftalık ödev (CUDA).** `06_cuda.ipynb` her görevi CUDA kernel'larıyla yapar ve sonucu OpenCV/CPU sürümüyle karşılaştırır. Notebook RTX 5070 Ti (compute capability 12.0, 70 SM) üzerinde, WSL2'de CuPy 14.2 ve CUDA 13.0 ile baştan sona çalıştırıldı; kaydedilmiş çıktılar bu çalıştırmadandır. Kernel kaynağı NVRTC ile sm_120 için hatasız derlendi.
+
+| Görev | CUDA sonucu |
+| --- | --- |
+| 1–2 · Histogram | Üç kanalda `cv2.calcHist` ile birebir aynı (maksimum fark 0); farklı kutu sayısı, aralık ve dairesel maske kontrolleri de geçti |
+| 3 · Gri dönüşüm | Hata değeri fotoğrafta **0**, bütün 16.777.216 renkte **0** |
+| 4 · Renk uzayları (fonksiyon pointer'ı) | Altı dönüşümün hepsinde, fotoğrafta ve bütün renklerde hata değeri **0** |
+| 5 · X-ray renklendirme | Beş görüntünün hepsinde CPU sürümüyle hata değeri **0** |
+
+4096 × 4096 görüntüde (bütün renkler) süreler: histogram CPU 7,84 ms / CUDA 0,19 ms, gri dönüşüm 0,72 / 0,10 ms, gri → palet 5,09 / 0,20 ms. BGR → HSV ise notebook'ta CUDA'da daha yavaş göründü (4,81 / 9,85 ms). Ayrı ölçümde bu kernel 1,5 ms sürdü; notebook çalışırken GPU belleğinin çoğunu başka bir program (yerel bir LLM sunucusu) tutuyordu ve süre ölçümleri bundan etkilendi, sonuçlar etkilenmedi. HSV kernel'ının diğer dönüşümlerden (0,2–0,35 ms) yavaş olmasının asıl nedeni ise OpenCV'nin bölme tablolarını aynen üretmek için `double` bölme kullanmasıdır: GeForce kartlarında 64 bit kayan nokta işlemleri 32 bitlikten çok daha yavaştır. Aynı kernel `float` bölmeyle 0,25 ms sürdü ve 16.777.216 rengin hiçbirinde farklı sonuç vermedi.
