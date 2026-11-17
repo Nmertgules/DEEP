@@ -85,11 +85,24 @@ The blur lowers both the noise and the edge heights. The noise drops more, so ed
 | 3 · Gauss + Sobel x, y, magnitude | 0.0002 | 0.82 / 1.50 ms | 77.98 / 22.54 ms |
 | 5 · Gauss + Laplacian | 0.0002 | 0.41 / 0.98 ms | 33.16 / 17.48 ms |
 
-GPU and CPU agree up to float rounding. For the small image, the GPU is slower because copying to and from the GPU costs more than the filtering. At 4K, it is 1.9–3.5× faster. The CPU numbers here are from Colab's 2-core CPU. The notebooks saved in this folder were executed on a CPU-only machine, so their GPU cells show "skipped".
+GPU and CPU agree up to float rounding. For the small image, the GPU is slower because copying to and from the GPU costs more than the filtering. At 4K, it is 1.9–3.5× faster. The CPU numbers here are from Colab's 2-core CPU.
+
+**Local GPU run** (RTX 5070 Ti, WSL2, OpenCV 5.0.0 built with CUDA 13.0 by the [Week 1 notebook](../week1/README.md), 20-thread desktop CPU). The outputs saved in the four notebooks come from this run, so their GPU sections now show results instead of "skipped". The GPU results are also saved as `results/task1_07_…_gpu.png`, `task2_07_…_gpu.png` and `task3_06_…_gpu.png`. Times include upload/download:
+
+| Task | max \|GPU − CPU\| | 640×427: CPU / GPU | 3840×2160: CPU / GPU |
+| --- | --- | --- | --- |
+| 1 · Gauss + Prewitt-x | 0.0001 | 0.30 / 2.66 ms | 13.48 / 18.09 ms |
+| 2 · Gauss + Prewitt-y | 0.0002 | 0.25 / 3.43 ms | 11.35 / 16.26 ms |
+| 3 · Gauss + Sobel x, y, magnitude | 0.0002 | 0.64 / 4.85 ms | 29.84 / 26.01 ms |
+| 5 · Gauss + Laplacian | 0.0002 | 0.22 / 2.01 ms | 12.89 / 17.80 ms |
+
+The results agree with the CPU exactly as on Colab. The timing picture is different: this CPU is 2.6–4.2 times faster than Colab's on these filters, so even at 4K the GPU is only ahead for Sobel, which runs two filters and a magnitude on the same uploaded image. For a single filter, copying the 33 MB float image to the GPU and back costs more than the CPU needs to filter it. During this run another program (a local LLM server) was holding most of the GPU's memory and part of its compute, so the GPU times are upper bounds.
 
 ## Run it
 
 **Colab with GPU:** first run the [Week 1 notebook](../week1/01_cuda_opencv_colab_setup.ipynb) with `USE_DRIVE = True`, which caches the CUDA build in Google Drive. Then open a Week 4 notebook with the Colab link, select a T4 GPU runtime, and run all. Its first cell restores the CUDA build from Drive. Without the cache, everything runs on the CPU.
+
+**Local machine with an NVIDIA GPU (Linux or WSL2):** run the [Week 1 notebook](../week1/01_cuda_opencv_colab_setup.ipynb) once in your Python environment; it builds OpenCV with CUDA into `~/opencv-cuda`. The first cell of each Week 4 notebook finds that folder (or the folder in `OPENCV_CUDA_PREFIX`), so the GPU sections run automatically.
 
 **Local (CPU):** from the repository root,
 
@@ -100,4 +113,4 @@ for n in 01_prewitt_x_gauss 02_prewitt_y_gauss 03_sobel_gauss 04_sobel_vs_prewit
 done
 ```
 
-The saved outputs in this folder come from OpenCV 5.0.0, NumPy 2.5.3 and Python 3.13 on a CPU-only Linux machine.
+The saved outputs of `01`, `02`, `03` and `05` come from the local GPU run above (OpenCV 5.0.0 with CUDA, NumPy 2.5.4, Python 3.12). `04_sobel_vs_prewitt.ipynb` has no GPU part; its outputs and the figures in `results/` come from OpenCV 5.0.0, NumPy 2.5.3 and Python 3.13 on a CPU-only Linux machine. The CPU-side numbers in both runs match.

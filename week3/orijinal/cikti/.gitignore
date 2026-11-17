@@ -1,0 +1,8 @@
+# Betikler ve uzamsal_filtreler.ipynb bu klasöre girdi ve sonuç görüntüleri yazar;
+# yalnızca README'de gösterilen figürler repoda tutulur.
+*
+!.gitignore
+!00_gurultu_karsilastirma.png
+!00_kontrast_karsilastirma.png
+!soru2_histogram_esitlenmis.png
+!soru2_histogram_grafik.png

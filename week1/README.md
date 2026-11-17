@@ -1,4 +1,4 @@
-# Digital Image Processing — Week 1: OpenCV with CUDA on Google Colab
+# Digital Image Processing — Week 1: OpenCV with CUDA on Google Colab (or a local NVIDIA GPU)
 
 **Group members: Nmertgules and Iliya**
 
@@ -12,13 +12,15 @@ Notebook: [01_cuda_opencv_colab_setup.ipynb](01_cuda_opencv_colab_setup.ipynb) �
 
 ## What the notebook does
 
-1. Checks the GPU and its compute capability (`nvidia-smi`; a T4 is 7.5).
-2. Optionally mounts Google Drive. If a cached build exists there, it is restored in seconds.
-3. Otherwise it clones `opencv` + `opencv_contrib` (tag `5.0.0`) and builds **only** `core, imgproc, imgcodecs, python3, cudev, cudaarithm, cudafilters, cudaimgproc`, for **only** this GPU's architecture (`CUDA_ARCH_BIN=<cc>`). This is what keeps the build in the tens-of-minutes range.
-4. Installs into `/opt/opencv-cuda`, removes Colab's CPU-only OpenCV wheels, and points Python to the new build with a `.pth` file.
+1. Checks the GPU and its compute capability (`nvidia-smi`; a T4 is 7.5, an RTX 5070 Ti is 12.0).
+2. On Colab, optionally mounts Google Drive. If a cached build exists there, it is restored in seconds.
+3. Otherwise it clones `opencv` + `opencv_contrib` (tag `5.0.0`) and builds **only** `core, imgproc, imgcodecs, python3, cudev, cudaarithm, cudafilters, cudaimgproc`, for **only** this GPU's architecture (`CUDA_ARCH_BIN=<cc>`). This is what keeps the build in the minutes-to-tens-of-minutes range. Parallel jobs are limited by RAM as well as CPU cores, because each `nvcc` job can use 1–2 GB.
+4. Installs into `/opt/opencv-cuda` on Colab or `~/opencv-cuda` on a local machine (no root needed), removes CPU-only OpenCV wheels from the running Python environment, and points it to the new build with a `.pth` file.
 5. Verifies with `cv2.cuda.getCudaEnabledDeviceCount()`, the CUDA section of `cv2.getBuildInformation()`, and a GPU vs. CPU Gaussian blur comparison.
 
-Run it with **Runtime → Change runtime type → T4 GPU**, then **Run all**. Set `USE_DRIVE = True` to keep the build for later weeks: each Colab notebook gets its own runtime, so the [Week 4](../week4/README.md) notebooks restore the build from that Drive cache.
+**Colab:** **Runtime → Change runtime type → T4 GPU**, then **Run all**. Set `USE_DRIVE = True` to keep the build for later weeks: each Colab notebook gets its own runtime, so the [Week 4](../week4/README.md) notebooks restore the build from that Drive cache.
+
+**Local machine (Linux or WSL2):** select a Python environment (a virtual environment is recommended) as the kernel and run all cells. The notebook detects that it is not on Colab, builds into `~/opencv-cuda`, and skips the build on later runs. The Week 4 notebooks find that folder automatically.
 
 ## Tested on Colab (12 Oct 2026)
 
@@ -35,8 +37,22 @@ Run it with **Runtime → Change runtime type → T4 GPU**, then **Run all**. Se
 
 When `cv2` is imported, Colab may print `Error disabling cv2.imshow()`. This message is harmless: the build has no GUI module, so there is no `imshow` for Colab to patch. Use matplotlib to show images.
 
-The notebook is saved without outputs; the values above come from that Colab run. The run used `USE_DRIVE = False`, so the Drive-cache save/restore path has not been tested yet.
+The Colab run used `USE_DRIVE = False`, so the Drive-cache save/restore path has not been tested yet.
 
-## Locally (VS Code)
+## Tested locally (9 Nov 2026)
 
-On your own machine with an NVIDIA GPU, install the driver and the CUDA Toolkit, then run the same `cmake` command with your GPU's compute capability (`nvidia-smi --query-gpu=compute_cap --format=csv`) and an install folder of your choice. On Windows, use Visual Studio's generator from the *x64 Native Tools* prompt instead of Ninja. Then select that Python interpreter in VS Code. Without an NVIDIA GPU there is nothing to accelerate, and the course notebooks fall back to the CPU.
+The outputs saved in the notebook come from this run: every cell executed top to bottom, including the full build.
+
+| | |
+| --- | --- |
+| GPU / driver | NVIDIA GeForce RTX 5070 Ti (compute capability 12.0, 16 GB), driver 616.92 |
+| System | WSL2 Ubuntu 24.04, 20 CPU threads, 15 GB RAM |
+| CUDA toolkit | 13.0 (`nvcc` V13.0.88) |
+| Python | 3.12.3 in a virtual environment, NumPy 2.5.4 |
+| OpenCV built | 5.0.0 + opencv_contrib 5.0.0, installed in `~/opencv-cuda` |
+| Build time | 10.2 min (10 parallel jobs) |
+| `cv2.cuda.getCudaEnabledDeviceCount()` | 1 |
+| Build info | `NVIDIA CUDA: YES (ver 13.0, CUFFT CUBLAS FAST_MATH)`, `NVIDIA GPU arch: 120` |
+| GPU vs. CPU Gaussian 5×5 on a 1920×1080 float image | max difference 4.6 × 10⁻⁵ |
+
+On native Windows, use Visual Studio's generator from the *x64 Native Tools* prompt instead of Ninja and run the same `cmake` command. Without an NVIDIA GPU there is nothing to accelerate, and the course notebooks fall back to the CPU.
