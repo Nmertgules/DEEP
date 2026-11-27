@@ -13,3 +13,5 @@ Each week's assignments, README, results, and available output figures are kept 
 | 5 | [week5](week5/) | [Week 5 README](week5/README.md) |
 | 6 | [week6](week6/) | [Week 6 README](week6/README.md) |
 | 7 | [week7](week7/) | [Week 7 README](week7/README.md) |
+| 9 | [week9](week9/) | [Week 9 README](week9/README.md) |
+| 10 | [week10](week10/) | [Week 10 README](week10/README.md) |
